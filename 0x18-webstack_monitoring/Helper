@@ -1,0 +1,39 @@
+Make an Account in Datadog 
+US-1 Region
+
+Click on Next and pick install on Ubuntu
+
+Copy the link to install it in Web-1
+
+If you ever want to stop the Datadog Agent, run:
+
+      sudo systemctl stop datadog-agent
+
+  And to run it again run:
+
+      sudo systemctl start datadog-agent
+
+After installing click on "Finish" in the datadog website
+
+Click on "Go to" on the left bar and search for "API key" and Copy it into the 
+ALX Intranet Profile, Do the Same for "APPlication key" but this one you have to
+Make a new Key.
+
+In the Task click on "system check" link, copy this "system.io.r_s" which is a
+command to show The number of read requests issued to the device per second.
+
+Go back to your datadog profile and click on "Monitors" in the left panel, make 
+a new monitor, then click on "Metric", Click on "Source" which in
+step2"Define the metrics", and paste "system.io.r_s{*}", Evalute the "sum"
+
+step3"set alert conditions" Alert threshold "100", Warning threshold "90"
+
+scroll down to step4"Notify your Team", add name and message
+
+Click on Create
+
+ReDo the same process for "system.io.w_s" with a new monitor
+
+Next, Click on Dashboard , new dashboard, Add name and 4 widgets, then from
+the URL copy the first ID number which comes after the first "ts=" and paste in
+the task file. DONE
