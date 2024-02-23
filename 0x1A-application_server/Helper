@@ -1,0 +1,146 @@
+#login to web-1
+
+git clone https://github.com/vvvvvvvv/AirBnB_clone_v2.git
+
+sudo apt install python3.8-venv
+
+python3 -m venv v2AirBnB
+
+source v2AirBnB/bin/activate
+
+cd AirBnB_clone_v2
+
+pip3 install flask
+
+vim web_flask/0-hello_route.py
+@app.route("/airbnb-onepage/", strict_slashes=False)
+app.run(host="0.0.0.0", port =5000)
+
+deactivate
+
+cd ~
+
+sudo apt install python3-pip
+
+sudo apt install gunicorn
+
+sudo apt install nginx
+
+source v2AirBnB/bin/activate
+
+cd AirBnB_clone_v2
+
+gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
+
+sudo lsof -i :5000
+
+sudo kill PID#
+
+gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app
+
+deactivate
+
+sudo vim /etc/nginx/sites-available/default
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name vvvvvv(web-1 ip)
+	add_header X-served-By vvvvvv-web-01;
+	location = /airbnb-onepage/ {
+		proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
+	}
+	location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
+                proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+        }
+        location /api {
+                proxy_pass http://127.0.0.1:5002/api;
+        }
+        location / {
+                proxy_pass http://127.0.0.1:5003/2-hbnb;
+        }
+        location /static {
+                alias web_dynamic/static/;
+        }
+	error_page 404 /404.html;
+        	location /404 {
+                	root /var/www/html;
+                	internal;
+        	}
+}
+
+sudo nginx -t
+
+sudo service nginx restart
+
+sudo service nginx status
+
+cd ~
+
+tmux new-session -d 'gunicorn --bind 0.0.0.0:5000 web_flask.0-hello_route:app'
+
+pgrep gunicorn
+
+tmux new-session -d 'gunicorn --bind 0.0.0.0:5001 web_flask.6-number_odd_or_even:app'
+
+pgrep gunicorn
+
+sudo nginx -t
+
+sudo service nginx restart
+
+sudo service nginx status
+
+git clone https://github.com/vvvvvvvv/AirBnB_clone_v3.git
+
+pip3 install flask_cors
+
+pip3 install flasgger
+
+pip3 install SQLAlchemy==1.4.*
+
+tmux new-session -d 'gunicorn --bind 0.0.0.0:5002 api.v1.app:app'
+
+pgrep gunicorn
+
+sudo nginx -t
+
+sudo service nginx restart
+
+sudo service nginx status
+
+git clone https://github.com/Mudi-san/AirBnB_clone_v4.git
+
+vim AirBnB_clone_v4/web_dynamic/static/scripts/2-hbnb.js
+change the ip to web-1 ip
+
+tmux new-session -d 'gunicorn --bind 0.0.0.0:5002 api.v1.app:app'
+
+sudo nginx -t
+
+sudo service nginx restart
+
+sudo service nginx status
+
+sudo vim /etc/systemd/system/gunicorn.service
+[Unit]
+Description=Hbnb_Start
+After=network.target
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/AirBnB_clone_v4/
+ExecStart=/home/ubuntu/AirBnB_clone_v4/myproject/bin/gunicorn --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app --workers 3 --error-logfile /tmp/airbnb-error.log --access-logfile /tmp/airbnb-access.log
+Restart=always
+StandardOutput=append:/tmp/airbnb-acess.log
+StandardError=append:/tmp/airbnb-error.log
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+
+sudo systemctl start gunicorn
+
+sudo systemctl enable gunicorn
+
+sudo systemctl status gunicorn
